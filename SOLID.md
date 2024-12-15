@@ -1,4 +1,4 @@
-# SOLID Principles a
+# SOLID Principles 
 Applied SOLID Principles:
 1. Single Responsibility Principle (SRP)
    - Factory's sole responsibility is creating pizza objects
