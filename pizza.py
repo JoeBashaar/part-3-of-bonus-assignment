@@ -10,17 +10,17 @@ class Pizza(ABC):
     def get_description(self) -> str:
         pass
 
-# Concrete Pizza Types
+# Concrete Pizzas
 class MargheritaPizza(Pizza):
     def get_cost(self) -> float:
-        return 8.0
+        return 5.0
     
     def get_description(self) -> str:
         return "Margherita Pizza"
 
 class PepperoniPizza(Pizza):
     def get_cost(self) -> float:
-        return 10.0
+        return 6.0
     
     def get_description(self) -> str:
         return "Pepperoni Pizza"
@@ -28,44 +28,39 @@ class PepperoniPizza(Pizza):
 # Pizza Factory
 class PizzaFactory:
     @staticmethod
-    def create_pizza(pizza_type: str) -> Pizza:
-        if pizza_type.lower() == "margherita":
+    def create_pizza(pizza_type: str, inventory_manager: InventoryManager) -> Pizza:
+        if pizza_type == "1" and inventory_manager.check_and_decrement("Margherita"):
             return MargheritaPizza()
-        elif pizza_type.lower() == "pepperoni":
+        elif pizza_type == "2" and inventory_manager.check_and_decrement("Pepperoni"):
             return PepperoniPizza()
-        raise ValueError("Invalid pizza type")
+        return None
 
-# Decorator Pattern for Toppings
+# Topping Decorator
 class ToppingDecorator(Pizza):
     def __init__(self, pizza: Pizza):
         self._pizza = pizza
-    
-    def get_cost(self) -> float:
-        return self._pizza.get_cost()
-    
-    def get_description(self) -> str:
-        return self._pizza.get_description()
 
 class CheeseTopping(ToppingDecorator):
     def get_cost(self) -> float:
         return self._pizza.get_cost() + 1.0
     
     def get_description(self) -> str:
-        return self._pizza.get_description() + ", Extra Cheese"
+        return f"{self._pizza.get_description()}, Extra Cheese"
 
 class OlivesTopping(ToppingDecorator):
     def get_cost(self) -> float:
         return self._pizza.get_cost() + 0.5
     
     def get_description(self) -> str:
-        return self._pizza.get_description() + ", Olives"
+        return f"{self._pizza.get_description()}, Olives"
 
 class MushroomsTopping(ToppingDecorator):
     def get_cost(self) -> float:
         return self._pizza.get_cost() + 0.7
     
     def get_description(self) -> str:
-        return self._pizza.get_description() + ", Mushrooms"
+        return f"{self._pizza.get_description()}, Mushrooms"
+
 
 # Singleton Pattern for Inventory
 class InventoryManager:
